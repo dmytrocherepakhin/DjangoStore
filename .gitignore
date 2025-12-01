@@ -1,0 +1,65 @@
+# PyCharm / IntelliJ
+.idea/
+*.iml
+
+# Python байткод та кеші
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Віртуальні середовища (якщо вони всередині проєкту)
+.venv/
+venv/
+env/
+ENV/
+.conda/
+.venv*/
+env.*/
+venv.*/
+.python_env/
+.python-version
+
+# Розповсюдження / пакування
+build/
+dist/
+downloads/
+.eggs/
+*.egg-info/
+*.egg
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+
+# Логи інсталяторів та ін.
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Тести та покриття
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+.hypothesis/
+.cache/
+
+# Типізація / лінтери
+.mypy_cache/
+.pyre/
+.pytype/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+.jupyter/lab/workspaces/
+
+# Файли з секретами/змінними середовища
+.env
+.env.*
+!.env.example
+
+# IDE та ОС-специфіка
+.vscode/
+.DS_Store
+Thumbs.db
