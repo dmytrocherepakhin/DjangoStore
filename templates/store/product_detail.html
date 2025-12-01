@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }}</title>
+</head>
+<body>
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.description }}</p>
+    <p>Ціна: {{ product.price }} грн</p>
+    <p>Кількість на складі: {{ product.quantity }}</p>
+    {% if product.image %}
+    <img src="{{ product.image.url }}" width="300" alt="{{ product.name }}">
+    {% endif %}
+    <br><a href="/">⬅ Назад до каталогу</a>
+</body>
+</html>

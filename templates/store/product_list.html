@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Магазин комп'ютерних комплектуючих</title>
+</head>
+<body>
+    <h1>Каталог товарів</h1>
+    <ul>
+        {% for product in products %}
+        <li>
+            <a href="{% url 'product_detail' product.pk %}">
+                <h3>{{ product.name }}</h3>
+            </a>
+            <p>Ціна: {{ product.price }} грн</p>
+            {% if product.image %}
+                <img src="{{ product.image.url }}" width="150" alt="{{ product.name }}">
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
