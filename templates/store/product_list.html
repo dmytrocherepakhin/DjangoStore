@@ -3,19 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <title>Магазин комп'ютерних комплектуючих</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .auth-buttons a {
+            margin-left: 10px;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .auth-buttons a:hover {
+            background-color: #0056b3;
+        }
+        ul.products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            list-style: none;
+            padding: 0;
+        }
+        li.product {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            padding: 15px;
+            width: 250px;
+            text-align: center;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        img {
+            display: block;
+            margin: 0 auto;
+            border-radius: 5px;
+            max-width: 100%;
+            height: auto;
+        }
+        .price {
+            color: #28a745;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        form {
+            margin-top: 10px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 7px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
-    <h1>Каталог товарів</h1>
-    <ul>
+    <header>
+        <h1>Каталог товарів</h1>
+
+        <div class="auth-buttons">
+            {% if user.is_authenticated %}
+                👤 {{ user.username }}
+                | <a href="{% url 'logout' %}">Вийти</a>
+                | <a href="{% url 'cart_detail' %}">Кошик</a>
+            {% else %}
+                <a href="{% url 'login' %}">Увійти</a>
+                <a href="{% url 'register' %}">Реєстрація</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <ul class="products">
         {% for product in products %}
-        <li>
+        <li class="product">
             <a href="{% url 'product_detail' product.pk %}">
                 <h3>{{ product.name }}</h3>
             </a>
-            <p>Ціна: {{ product.price }} грн</p>
             {% if product.image %}
-                <img src="{{ product.image.url }}" width="150" alt="{{ product.name }}">
+                <img src="{{ product.image.url }}" width="200" alt="{{ product.name }}">
             {% endif %}
+
+            <div class="bottom">
+                <p class="price">{{ product.price }} грн</p>
+                <form method="post" action="{% url 'add_to_cart' product.pk %}">
+                    {% csrf_token %}
+                    <button type="submit">Додати в кошик</button>
+                </form>
+            </div>
         </li>
         {% endfor %}
     </ul>
