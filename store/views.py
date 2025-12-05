@@ -10,10 +10,6 @@ def product_list(request):
     return render(request, 'store/product_list.html', {'products': products})
 
 
-# def product_detail(request, pk):
-#     product = get_object_or_404(Product, pk=pk)
-#     return render(request, 'store/product_detail.html', {'product': product})
-
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
     reviews = product.reviews.all()
@@ -61,11 +57,9 @@ def checkout(request):
     items = cart.items.all()
     total = sum(item.subtotal() for item in items)
 
-    # Створюємо замовлення
     order = Order.objects.create(user=request.user, total_price=total)
 
     for item in items:
-        # Створюємо позицію замовлення
         OrderItem.objects.create(
             order=order,
             product=item.product,
@@ -73,11 +67,9 @@ def checkout(request):
             price=item.product.price
         )
 
-        # 🟢 Зменшуємо залишок товарів
         item.product.quantity -= item.quantity
         item.product.save()
 
-    # Очищаємо кошик
     cart.items.all().delete()
 
     return render(request, 'store/order_complete.html', {'order': order})
