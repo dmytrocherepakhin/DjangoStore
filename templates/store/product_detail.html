@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #fafafa;
+        }
+        img {
+            display: block;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .btn-green {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-green:hover {
+            background-color: #218838;
+        }
+
+        .btn-gray {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-gray:hover {
+            background-color: #5a6268;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            resize: vertical;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.description }}</p>
+    <p>Ціна: <strong>{{ product.price }} грн</strong></p>
+    <p>Кількість на складі: {{ product.quantity }}</p>
+
+    {% if product.image %}
+      <img src="{{ product.image.url }}" width="300" alt="{{ product.name }}">
+    {% endif %}
+
+    <form method="post" action="{% url 'add_to_cart' product.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="btn-green">Додати до кошика</button>
+    </form>
+
+    <br><a href="/">⬅ Назад до каталогу</a>
+
+    <h3>Відгуки:</h3>
+    <ul>
+      {% for review in reviews %}
+        <li><strong>{{ review.user.username }}</strong>: {{ review.content }}
+        ({{ review.created_at|date:"d.m.Y" }})</li>
+      {% empty %}
+        <li><em>Поки що немає відгуків</em></li>
+      {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated %}
+      <form method="post">
+        {% csrf_token %}
+        <textarea name="content" placeholder="Залиште свій відгук..."></textarea><br>
+        <button type="submit" class="btn-gray">Опублікувати</button>
+      </form>
+    {% else %}
+      <p><a href="{% url 'login' %}">Увійдіть</a>, щоб залишити відгук.</p>
+    {% endif %}
+</body>
+</html>

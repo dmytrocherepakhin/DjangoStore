@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Дякуємо за замовлення!</title>
+</head>
+<body>
+    <h1>✅ Замовлення успішно оформлено!</h1>
+
+    <p>Ваше замовлення №{{ order.id }} прийнято до обробки.</p>
+    <p>Сума до оплати: <strong>{{ order.total_price }} грн</strong></p>
+
+    <a href="{% url 'product_list' %}">⬅ Повернутися до каталогу</a>
+</body>
+</html>
